@@ -24,14 +24,15 @@ namespace GameOOP
         Attack,
         Cast
     }
-public partial class MainWindow : Window
+    public partial class MainWindow : Window
     {
         private GameSession _gameSession;
         private Actions _current;
-        public MainWindow()
+        public MainWindow(int [] arm1Id, int[] arm1Count,
+                          int [] arm2Id, int[] arm2Count)
         {
             InitializeComponent();
-            _gameSession = new GameSession();
+            _gameSession = new GameSession(arm1Id, arm1Count, arm2Id, arm2Count);
             DataContext = _gameSession;
         }
 

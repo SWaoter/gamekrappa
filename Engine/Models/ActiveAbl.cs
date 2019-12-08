@@ -3,33 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Engine.Models
 {
+    [Serializable, XmlInclude(typeof(PunishingBlow)), XmlInclude(typeof(Weakening)), XmlInclude(typeof(SpeedBoost)),
+     XmlInclude(typeof(Curse)), XmlInclude(typeof(Resurrection))]
     public class ActiveAbl
     {
-        public double Defence { get; private set; }
-        public double Attack { get; private set; }
-        public double Initiative { get; private set; }
-        public double Damage { get; private set; }
-        public double Hp { get; private set; }
-        public double Heal { get; private set; }
-        public bool Friendy { get; private set; }
-        public bool Aoe { get; private set; }
-        public string Name { get; private set; }
+        public double Defence { get;}
+        public double Attack { get; }
+        public double Initiative { get; }
+        public double Damage { get; }
+        public double Hp { get; }
+        public double Heal { get; }
+        public bool Friendly { get; }
+        public bool Aoe { get; }
+        public string Name { get; }
         public bool WasNotUsed { get; set; }
-        public ActiveAbl(double _def, double _atk, double _ini, double _dmg, double _hp, double _heal, 
-                         bool _friend, bool _aoe, string _name)
+        public ActiveAbl(double def, double atk, double ini, double dmg, double hp, double heal, 
+                         bool friend, bool aoe, string name)
         {
-            Defence = _def;
-            Attack = _atk;
-            Initiative = _ini;
-            Damage = _dmg;
-            Hp = _hp;
-            Heal = _heal;
-            Friendy = _friend;
-            Aoe = _aoe;
-            Name = _name;
+            Defence = def;
+            Attack = atk;
+            Initiative = ini;
+            Damage = dmg;
+            Hp = hp;
+            Heal = heal;
+            Friendly = friend;
+            Aoe = aoe;
+            Name = name;
             WasNotUsed = true;
         }
         public ActiveAbl()

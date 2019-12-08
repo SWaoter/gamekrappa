@@ -9,7 +9,7 @@ namespace Engine.Models
     public class Army
     {
         private UnitsStack[] _army;
-        public int _size { get; private set; }
+        public int Size { get; private set; }
         public Army(params UnitsStack[] param)
         {
             if (param.Length > 6)
@@ -19,19 +19,19 @@ namespace Engine.Models
             {
                 _army[i] = new UnitsStack(param[i]);
             }
-            _size = param.Length;
+            Size = param.Length;
         }
         public Army()
         {
             _army = new UnitsStack[6];
-            _size = 0;
+            Size = 0;
         }
         public UnitsStack[] GetArmy()
         {
-            if (_size == 0)
+            if (Size == 0)
                 throw new Exception("Army is defeated");
-            UnitsStack[] ret = new UnitsStack[_size];
-            for (int i = 0; i < _size; i++)
+            UnitsStack[] ret = new UnitsStack[Size];
+            for (int i = 0; i < Size; i++)
             {
                 ret[i] = new UnitsStack(_army[i]);
             }
@@ -39,36 +39,36 @@ namespace Engine.Models
         }
         public void UpdateArmy(Army other)
         {
-            if (other._size > 6)
+            if (other.Size > 6)
             {
-                _size = 6;
+                Size = 6;
             }
             else
             {
-                _size = other._size;
+                Size = other.Size;
             }
-            UnitsStack[] _tmp = other.GetArmy();
-            for (int i = 0; i < _size; i++)
+            UnitsStack[] tmp = other.GetArmy();
+            for (int i = 0; i < Size; i++)
             {
-                _army[i] = new UnitsStack(_tmp[i]);
+                _army[i] = new UnitsStack(tmp[i]);
             }
         }
         public void UpdateArmy(int i = 0)
         {
-            _size = 0;
+            Size = 0;
         }
         public void AddStack(UnitsStack other)
         {
-            if (_size > 5)
+            if (Size > 5)
                 throw new Exception("Failed to add Stack to army");
-            _army[_size] = new UnitsStack(other);
-            _size++;
+            _army[Size] = new UnitsStack(other);
+            Size++;
         }
         public void PrintArmy()
         {
-            if (_size == 0)
+            if (Size == 0)
                 Console.WriteLine("Army is defeated");
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Size; i++)
             {
                 Console.WriteLine($"{i + 1} : {_army[i].Type.Type}  {_army[i].Count}");
             }

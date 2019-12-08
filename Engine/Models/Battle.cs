@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Engine.Models
@@ -83,27 +78,27 @@ namespace Engine.Models
         }
         private void InitiaizePriority()
         {
-            turn_priority = new Pair<int, int>[_first._size + _second._size];
-            for (int i = 0; i < _first._size + _second._size; i++)
+            turn_priority = new Pair<int, int>[_first.Size + _second.Size];
+            for (int i = 0; i < _first.Size + _second.Size; i++)
             {
                 turn_priority[i] = new Pair<int, int>();
-                if (i < _first._size)
+                if (i < _first.Size)
                 {
                     turn_priority[i].First = i;
                     turn_priority[i].Second = 1;
                 }
                 else
                 {
-                    turn_priority[i].First = i - _first._size;
+                    turn_priority[i].First = i - _first.Size;
                     turn_priority[i].Second = 2;
                 }
             }
         }
         private void RecalculPrior()
         {
-            for (int i = 0; i < _first._size + _second._size; i++)
+            for (int i = 0; i < _first.Size + _second.Size; i++)
             {
-                for (int j = _first._size + _second._size - 1; j > i; j--)
+                for (int j = _first.Size + _second.Size - 1; j > i; j--)
                 {
                     double s1;
                     double s2 = 0;
@@ -143,18 +138,18 @@ namespace Engine.Models
             {
                 _second[id_of_curent_stack_in_army].Color = "Transparent";
             }
-            if (prior_pointer > _first._size + _second._size - 1)
+            if (prior_pointer > _first.Size + _second.Size - 1)
             {
                 prior_pointer = 0;
                 waiting_units = 0;
                 InitiaizePriority();
                 RecalculPrior();
-                for (int i = 0; i < _first._size; i++)
+                for (int i = 0; i < _first.Size; i++)
                 {
                     _first[i].IsWaiting = false;
                     _first[i].CounterAttack = true;
                 }
-                for (int i = 0; i < _second._size; i++)
+                for (int i = 0; i < _second.Size; i++)
                 {
                     _second[i].IsWaiting = false;
                     _second[i].CounterAttack = true;
@@ -164,7 +159,7 @@ namespace Engine.Models
         }
         public void Wait()
         {
-            for (int i = prior_pointer; i < _first._size + _second._size - waiting_units - 1; i++)
+            for (int i = prior_pointer; i < _first.Size + _second.Size - waiting_units - 1; i++)
             {
                 Pair<int, int> tmp = turn_priority[i];
                 turn_priority[i] = turn_priority[i + 1];
@@ -190,23 +185,23 @@ namespace Engine.Models
         }
         public void Attack1(int id_of_target)
         {
-            if ((attacker.Type.Ability & Ability.GreatCleave) > 0)
+            if (attacker.Type.Ability.GreatCleave)
             {
                 is_continue = false;
                 if (move_of_first_army)
                 {
-                    for (int i = 0; i < _second._size; i++)
+                    for (int i = 0; i < _second.Size; i++)
                     {
-                        if (i == _second._size - 1)
+                        if (i == _second.Size - 1)
                             is_continue = true;
                         Attack(i);
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < _first._size; i++)
+                    for (int i = 0; i < _first.Size; i++)
                     {
-                        if (i == _first._size - 1)
+                        if (i == _first.Size - 1)
                             is_continue = true;
                         Attack(i);
                     }
@@ -223,9 +218,9 @@ namespace Engine.Models
             if (move_of_first_army)
             {
                 _second.TakeAttack(attacker, id_of_target);
-                if (!((attacker.Type.Ability & Ability.Shooter) > 0) && _second[id_of_target].CounterAttack &&
-                    !((_second[id_of_target].Type.Ability & Ability.Shooter) > 0) && !((attacker.Type.Ability & Ability.NoResistance) > 0) 
-                    || ((_second[id_of_target].Type.Ability & Ability.Reflection) > 0))
+                if ((!(attacker.Type.Ability.Shooter) && _second[id_of_target].CounterAttack &&
+                    !(_second[id_of_target].Type.Ability.Shooter) || _second[id_of_target].Type.Ability.Reflection) 
+                    && !(attacker.Type.Ability.NoResistance))
                 {
                     _first.TakeAttack(_second[id_of_target], id_of_curent_stack_in_army);
                     _second[id_of_target].CounterAttack = false;
@@ -234,9 +229,9 @@ namespace Engine.Models
             else
             {
                 _first.TakeAttack(attacker, id_of_target);
-                if (!((attacker.Type.Ability & Ability.Shooter) > 0) && _first[id_of_target].CounterAttack &&
-                    !((_first[id_of_target].Type.Ability & Ability.Shooter) > 0) && !((attacker.Type.Ability & Ability.NoResistance) > 0)
-                    || ((_first[id_of_target].Type.Ability & Ability.Reflection) > 0))
+                if ((!(attacker.Type.Ability.Shooter) && _first[id_of_target].CounterAttack &&
+                    !(_first[id_of_target].Type.Ability.Shooter) || _first[id_of_target].Type.Ability.Reflection)
+                    && !(attacker.Type.Ability.NoResistance))
                 {
                     _second.TakeAttack(_first[id_of_target], id_of_curent_stack_in_army);
                     _first[id_of_target].CounterAttack = false;
@@ -250,22 +245,22 @@ namespace Engine.Models
             if (attacker.Type.ActiveAbl.Aoe)
             {
                 is_continue = false;
-                if (attacker.Type.ActiveAbl.Friendy)
+                if (attacker.Type.ActiveAbl.Friendly)
                 {
                     if (move_of_first_army)
                     {
-                        for (int i = 0; i < _first._size; i++)
+                        for (int i = 0; i < _first.Size; i++)
                         {
-                            if (i == _first._size - 1)
+                            if (i == _first.Size - 1)
                                 is_continue = true;
                             Cast(i);
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < _second._size; i++)
+                        for (int i = 0; i < _second.Size; i++)
                         {
-                            if (i == _second._size - 1)
+                            if (i == _second.Size - 1)
                                 is_continue = true;
                             Cast(i);
                         }
@@ -275,18 +270,18 @@ namespace Engine.Models
                 {
                     if (move_of_first_army)
                     {
-                        for (int i = 0; i < _second._size; i++)
+                        for (int i = 0; i < _second.Size; i++)
                         {
-                            if (i == _second._size - 1)
+                            if (i == _second.Size - 1)
                                 is_continue = true;
                             Cast(i);
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < _first._size; i++)
+                        for (int i = 0; i < _first.Size; i++)
                         {
-                            if (i == _first._size - 1)
+                            if (i == _first.Size - 1)
                                 is_continue = true;
                             Cast(i);
                         }
@@ -305,7 +300,7 @@ namespace Engine.Models
             bool is_waiting;
             double initiative;
             double tmp_initiative;
-            if (attacker.Type.ActiveAbl.Friendy)
+            if (attacker.Type.ActiveAbl.Friendly)
             {
                 if (move_of_first_army)
                 { 
@@ -340,7 +335,7 @@ namespace Engine.Models
             }
             if (attacker.Type.ActiveAbl.Initiative > 1)
             {
-                for (int i = 0; i < _first._size + _second._size; i++)
+                for (int i = 0; i < _first.Size + _second.Size; i++)
                 {
                     if (turn_priority[i].First == id_of_target &&
                         turn_priority[i].Second == army_id)
@@ -372,7 +367,7 @@ namespace Engine.Models
                         }
                         if (is_waiting && i > prior_pointer + 1)
                         {
-                            for (int j = i; j < _first._size + _second._size - 1; j++)
+                            for (int j = i; j < _first.Size + _second.Size - 1; j++)
                             {
                                 if (turn_priority[j + 1].Second == 1)
                                 {
@@ -401,14 +396,14 @@ namespace Engine.Models
             }
             if (attacker.Type.ActiveAbl.Initiative < 1)
             {
-                for (int i = 0; i < _first._size + _second._size; i++)
+                for (int i = 0; i < _first.Size + _second.Size; i++)
                 {
                     if (turn_priority[i].First == id_of_target &&
                         turn_priority[i].Second == army_id)
                     {
                         if (!is_waiting && i > prior_pointer)
                         {
-                            for (int j = i; j < _first._size + _second._size - 1 - waiting_units; j++)
+                            for (int j = i; j < _first.Size + _second.Size - 1 - waiting_units; j++)
                             {
                                 if (turn_priority[j + 1].Second == 1)
                                 {

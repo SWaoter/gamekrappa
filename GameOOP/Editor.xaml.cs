@@ -15,25 +15,13 @@ using System.Windows.Shapes;
 namespace GameOOP
 {
     /// <summary>
-    /// Логика взаимодействия для StartMenu.xaml
+    /// Логика взаимодействия для Editor.xaml
     /// </summary>
-    public partial class StartMenu : Window
+    public partial class Editor : Window
     {
-        public StartMenu()
+        public Editor()
         {
             InitializeComponent();
-        }
-
-        private void StartBattle_Click(object sender, RoutedEventArgs e)
-        {
-            PumpBatlle battle = new PumpBatlle();
-            battle.Show();
-            this.Close();
-        }
-
-        private void Editor_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }

@@ -9,33 +9,33 @@ namespace Engine.Models
     public class BattleArmy
     {
         private BattleUnitsStack[] _army;
-        public int _size { get; private set; }
-        public bool _is_defeated { get; private set; }
+        public int Size { get; private set; }
+        public bool IsDefeated { get; private set; }
         public BattleArmy(Army pattern)
         {
-            _is_defeated = false;
+            IsDefeated = false;
             _army = new BattleUnitsStack[6];
-            _size = pattern._size;
+            Size = pattern.Size;
             UnitsStack[] tmp = pattern.GetArmy();
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Size; i++)
             {
                 _army[i] = new BattleUnitsStack(tmp[i]);
             }
-            for (int i = _size; i < 6; i++)
+            for (int i = Size; i < 6; i++)
             {
                 _army[i] = new BattleUnitsStack();
             }
         }
         public void AddStack(UnitsStack other)
         {
-            if (_size > 5)
+            if (Size > 5)
                 throw new Exception("Failed to add Stack to army");
-            _army[_size] = new BattleUnitsStack(other);
-            _size++;
+            _army[Size] = new BattleUnitsStack(other);
+            Size++;
         }
         public void GetArmy()
         {
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Size; i++)
             {
                 Console.WriteLine($"{i + 1} : {_army[i].Type.Type}  {_army[i].CurrentUnits}");
             }

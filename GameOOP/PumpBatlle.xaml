@@ -7,6 +7,51 @@
         mc:Ignorable="d"
         Title="PumpBatlle" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" Grid.Row="1" x:Name="Unitslist">
+            </ComboBox>
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="test123" Width="190" />
+            <Button Grid.Column="2" Grid.Row="1" x:Name="addButton" Click="AddButton_Click" Content="Add"></Button>
+        </Grid>
+        <ListBox Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" x:Name="Data"></ListBox>
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" Grid.Row="1" x:Name="Unitslist2">
+            </ComboBox>
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="test1232" Width="190" />
+            <Button Grid.Column="2" Grid.Row="1" x:Name="addButton2" Click="AddButton_Click2" Content="Add"></Button>
+        </Grid>
+        <ListBox Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" x:Name="Data2"></ListBox>
+        <Button Grid.Row="3" Grid.Column="1" Content="Start Battle" x:Name="Start123" Click="Start123_Click"></Button>
     </Grid>
 </Window>

@@ -19,6 +19,6 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Button Grid.Column="1" Grid.Row="1" x:Name="startBattle" Content="Start Battle" Click="StartBattle_Click" />
-        <Button Grid.Column="1" Grid.Row="2" x:Name="editor" Content="Open game editor" />
+        <Button Grid.Column="1" Grid.Row="2" x:Name="editor" Content="Open game editor" Click="Editor_Click" />
     </Grid>
 </Window>

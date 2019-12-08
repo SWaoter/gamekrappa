@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Engine.Models
+﻿namespace Engine.Models
 {
     public class UnitsStack
     {
-        public Unit Type { get; private set; }
-        public int Count { get; private set; }
-        public UnitsStack(Unit Type, int Count)
+        public Unit Type { get;}
+        public int Count { get;}
+        public UnitsStack(Unit type, int count)
         {
-            this.Type = new Unit(Type);
-            this.Count = Count;
+            Type = new Unit(type);
+            Count = count;
         }
         public UnitsStack(UnitsStack other)
         {

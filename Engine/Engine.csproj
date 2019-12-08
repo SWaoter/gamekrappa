@@ -41,18 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Ability.cs" />
+    <Compile Include="Factory\BattleCreation.cs" />
+    <Compile Include="Factory\ExpandData.cs" />
     <Compile Include="Models\ActiveAbl.cs" />
     <Compile Include="Models\Army.cs" />
     <Compile Include="Models\Battle.cs" />
     <Compile Include="Models\BattleArmy.cs" />
     <Compile Include="Models\BattleUnitsStack.cs" />
     <Compile Include="Models\ActiveAbls.cs" />
+    <Compile Include="Models\PassiveAbl.cs" />
+    <Compile Include="Models\PassiveAbls.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Models\Units.cs" />
     <Compile Include="Models\UnitsStack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModules\GameSession.cs" />
+    <Compile Include="ViewModels\ExpandDataMV.cs" />
+    <Compile Include="ViewModels\FactoryMV.cs" />
+    <Compile Include="ViewModels\GameSession.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Lich.png" />
@@ -76,11 +81,6 @@
   <ItemGroup>
     <Resource Include="Images\Dead.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="DataFiles\BattleData.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

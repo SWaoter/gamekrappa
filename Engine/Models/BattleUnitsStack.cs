@@ -123,7 +123,7 @@ namespace Engine.Models
         {
             double total_dmg = 0;
             double tmp_def = CurrentDefence;
-            if ((_attacker.Type.Ability & Ability.AccurateShot) > 0)
+            if (_attacker.Type.Ability.AccurateShot)
                 CurrentDefence = 0;
             if (_attacker.CurrentAttack > CurrentDefence)
             {
@@ -144,6 +144,8 @@ namespace Engine.Models
         }
         public void Heal(double hp)
         {
+            if (Type.Ability.Undead)
+                hp *= 2;
             if (hp <= 0)           
                 return;           
             double _tmp_hp = (CurrentUnits - 1) * Type.Health + LastHp + hp;

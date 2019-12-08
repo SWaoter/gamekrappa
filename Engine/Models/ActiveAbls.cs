@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Engine.Models
+﻿namespace Engine.Models
 {
     public class PunishingBlow : ActiveAbl
     {
@@ -25,9 +19,5 @@ namespace Engine.Models
     public class Resurrection : ActiveAbl
     {
         public Resurrection() : base(1, 1, 1, 1, 0, 100, true, false, "Resurrection") { }
-    }
-    public class NoneAbl : ActiveAbl
-    {
-        public NoneAbl() : base() { }
     }
 }
