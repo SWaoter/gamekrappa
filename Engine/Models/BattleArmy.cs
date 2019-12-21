@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine.Models
 {
@@ -33,12 +29,17 @@ namespace Engine.Models
             _army[Size] = new BattleUnitsStack(other);
             Size++;
         }
-        public void GetArmy()
+
+        public void CheckIfDefeated()
         {
+            int num = 0;
             for (int i = 0; i < Size; i++)
             {
-                Console.WriteLine($"{i + 1} : {_army[i].Type.Type}  {_army[i].CurrentUnits}");
+                if (!_army[i].IsAlive)
+                    num++;
             }
+            if (num == Size)
+                IsDefeated = true;
         }
         public void TakeAttack(BattleUnitsStack attacker, int num)
         {

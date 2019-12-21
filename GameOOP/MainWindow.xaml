@@ -11,11 +11,12 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.025*"></RowDefinition>
+            <RowDefinition Height="0.35*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -25,119 +26,335 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" Grid.Row="1"
+        <Border Grid.Column="0" Grid.Row="2" BorderThickness="2" BorderBrush="{Binding Battle.First[0].Color}">
+            <Button
                 x:Name="stack11"
-                ToolTip="{Binding Battle._first[0].string_def}"
-                Background="{Binding Battle._first[0].Color}"
+                ToolTip="{Binding Battle.First[0].StringDef}"
+                Background="Transparent"
                 Click="Stack11_Click"
-                Visibility="{Binding Battle._first[0].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._first[0].FileName}"/>
-        </Button>
-        <Button Grid.Column="0" Grid.Row="2"
+                Visibility="{Binding Battle.First[0].IsAlive, Converter={StaticResource BooleanToVis}}">
+                <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[0].FileName}">
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleX="-1"/>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
+        </Border>
+        <Border Grid.Column="0" Grid.Row="3" BorderThickness="2" BorderBrush="{Binding Battle.First[2].Color}">
+        <Button
                 x:Name="stack13"
-                ToolTip="{Binding Battle._first[2].string_def}"
-                Background="{Binding Battle._first[2].Color}"
+                ToolTip="{Binding Battle.First[2].StringDef}"
+                Background="Transparent"
                 Click="Stack13_Click"
-                Visibility="{Binding Battle._first[2].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._first[2].FileName}"/>
-        </Button>
-        <Button Grid.Column="0" Grid.Row="3"
+                Visibility="{Binding Battle.First[2].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[2].FileName}">
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Image.RenderTransform>
+            </Image>
+            </Button>
+        </Border>
+        <Border Grid.Column="0" Grid.Row="4" BorderThickness="2" BorderBrush="{Binding Battle.First[4].Color}">
+            <Button
                 x:Name="stack15"
-                ToolTip="{Binding Battle._first[4].string_def}" 
-                Background="{Binding Battle._first[4].Color}"
+                ToolTip="{Binding Battle.First[4].StringDef}"
+                Background="Transparent"
                 Click="Stack15_Click"
-                Visibility="{Binding Battle._first[4].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._first[4].FileName}"/>
-        </Button>
-        <Button Grid.Column="1" Grid.Row="1"
+                Visibility="{Binding Battle.First[4].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[4].FileName}">
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Image.RenderTransform>
+            </Image>
+            </Button>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="2" BorderThickness="2" BorderBrush="{Binding Battle.First[1].Color}">
+            <Button
                 x:Name="stack12"
-                ToolTip="{Binding Battle._first[1].string_def}"
-                Background="{Binding Battle._first[1].Color}"
+                ToolTip="{Binding Battle.First[1].StringDef}"
+                Background="Transparent"
                 Click="Stack12_Click"
-                Visibility="{Binding Battle._first[1].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._first[1].FileName}"/>
-        </Button>
-        <Button Grid.Column="1" Grid.Row="2"
+                Visibility="{Binding Battle.First[1].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[1].FileName}">
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Image.RenderTransform>
+            </Image>
+            </Button>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="3" BorderThickness="2" BorderBrush="{Binding Battle.First[3].Color}">
+            <Button
                 x:Name="stack14"
-                ToolTip="{Binding Battle._first[3].string_def}"
-                Background="{Binding Battle._first[3].Color}"
+                ToolTip="{Binding Battle.First[3].StringDef}"
+                Background="Transparent"
                 Click="Stack14_Click"
-                Visibility="{Binding Battle._first[3].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._first[3].FileName}"/>
-        </Button>
-        <Button Grid.Column="1" Grid.Row="3"
+                Visibility="{Binding Battle.First[3].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[3].FileName}">
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Image.RenderTransform>
+            </Image>
+            </Button>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="1" BorderThickness="2" BorderBrush="{Binding Battle.First[5].Color}">
+            <Button
                 x:Name="stack16"
-                ToolTip="{Binding Battle._first[5].string_def}"
-                Background="{Binding Battle._first[5].Color}"
+                ToolTip="{Binding Battle.First[5].StringDef}"
+                Background="Transparent"
                 Click="Stack16_Click"
-                Visibility="{Binding Battle._first[5].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._first[5].FileName}"/>
-        </Button>
-        <Button Grid.Column="5" Grid.Row="1"
+                Visibility="{Binding Battle.First[5].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[5].FileName}">
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Image.RenderTransform>
+            </Image>
+            </Button>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="5" BorderThickness="2" BorderBrush="{Binding Battle.Second[1].Color}">
+            <Button
                 x:Name="stack22"
-                ToolTip="{Binding Battle._second[1].string_def}"
-                Background="{Binding Battle._second[1].Color}"
+                ToolTip="{Binding Battle.Second[1].StringDef}"
+                Background="Transparent"
                 Click="Stack22_Click"
-                Visibility="{Binding Battle._second[1].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._second[1].FileName}"/>
-        </Button>
-        <Button Grid.Column="5" Grid.Row="2"
+                Visibility="{Binding Battle.Second[1].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image Source="{Binding Battle.Second[1].FileName}"/>
+            </Button>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="5" BorderThickness="2" BorderBrush="{Binding Battle.Second[3].Color}">
+            <Button
                 x:Name="stack24"
-                ToolTip="{Binding Battle._second[3].string_def}"
-                Background="{Binding Battle._second[3].Color}"
+                ToolTip="{Binding Battle.Second[3].StringDef}"
+                Background="Transparent"
                 Click="Stack24_Click"
-                Visibility="{Binding Battle._second[3].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._second[3].FileName}"/>
-        </Button>
-        <Button Grid.Column="5" Grid.Row="3"
+                Visibility="{Binding Battle.Second[3].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image Source="{Binding Battle.Second[3].FileName}"/>
+            </Button>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="5" BorderThickness="2" BorderBrush="{Binding Battle.Second[5].Color}">
+            <Button
                 x:Name="stack26"
-                ToolTip="{Binding Battle._second[5].string_def}"
-                Background="{Binding Battle._second[5].Color}"
+                ToolTip="{Binding Battle.Second[5].StringDef}"
+                Background="Transparent"
                 Click="Stack26_Click"
-                Visibility="{Binding Battle._second[5].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._second[5].FileName}"/>
-        </Button>
-        <Button Grid.Column="4" Grid.Row="1"
+                Visibility="{Binding Battle.Second[5].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image Source="{Binding Battle.Second[5].FileName}"/>
+            </Button>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="4" BorderThickness="2" BorderBrush="{Binding Battle.Second[0].Color}">
+            <Button               
                 x:Name="stack21"
-                ToolTip="{Binding Battle._second[0].string_def}"
-                Background="{Binding Battle._second[0].Color}"
+                ToolTip="{Binding Battle.Second[0].StringDef}"
+                Background="Transparent"
                 Click="Stack21_Click"
-                Visibility="{Binding Battle._second[0].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._second[0].FileName}"/>
-        </Button>
-        <Button Grid.Column="4" Grid.Row="2"
+                Visibility="{Binding Battle.Second[0].IsAlive, Converter={StaticResource BooleanToVis}}">
+            <Image Source="{Binding Battle.Second[0].FileName}"/>
+            </Button>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="4" BorderThickness="2" BorderBrush="{Binding Battle.Second[2].Color}">
+            <Button 
                 x:Name="stack23"
-                ToolTip="{Binding Battle._second[2].string_def}"
-                Background="{Binding Battle._second[2].Color}"
+                ToolTip="{Binding Battle.Second[2].StringDef}"
+                Background="Transparent"
                 Click="Stack23_Click"
-                Visibility="{Binding Battle._second[2].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._second[2].FileName}"/>
-        </Button>
-        <Button Grid.Column="4" Grid.Row="3"
+                Visibility="{Binding Battle.Second[2].IsAlive, Converter={StaticResource BooleanToVis}}">
+                <Image Source="{Binding Battle.Second[2].FileName}"/>
+            </Button>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="4" BorderThickness="2" BorderBrush="{Binding Battle.Second[4].Color}">
+            <Button
                 x:Name="stack25"
-                ToolTip="{Binding Battle._second[4].string_def}"
-                Background="{Binding Battle._second[4].Color}"
+                ToolTip="{Binding Battle.Second[4].StringDef}"
+                Background="Transparent"
                 Click="Stack25_Click"
-                Visibility="{Binding Battle._second[4].IsAlive, Converter={StaticResource BooleanToVis}}">
-            <Image Source="{Binding Battle._second[4].FileName}"/>
-        </Button>
-        <Button Grid.Column="0" Grid.Row="4"
+                Visibility="{Binding Battle.Second[4].IsAlive, Converter={StaticResource BooleanToVis}}">
+                <Image Source="{Binding Battle.Second[4].FileName}"/>
+            </Button>
+        </Border>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0">
+                <Image
+                       Source="{Binding Battle.TurnQueue[0].ImageName}"
+                       Visibility="{Binding Battle.TurnQueue[0].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[1].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[1].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[2].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[2].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[3].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[3].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[4].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[4].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[5].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[5].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[6].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[6].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[7].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[7].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[8].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[8].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[9].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[9].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="5" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[10].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[10].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="0">
+                <Image
+                    Source="{Binding Battle.TurnQueue[11].ImageName}"
+                    Visibility="{Binding Battle.TurnQueue[11].Visibility, Converter={StaticResource BooleanToVis}}"
+                >
+                </Image>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="{Binding Battle.TurnQueue[0].ColorName}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Background="{Binding Battle.TurnQueue[1].ColorName}"></TextBlock>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="{Binding Battle.TurnQueue[2].ColorName}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Background="{Binding Battle.TurnQueue[3].ColorName}"></TextBlock>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="{Binding Battle.TurnQueue[4].ColorName}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Background="{Binding Battle.TurnQueue[5].ColorName}"></TextBlock>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="{Binding Battle.TurnQueue[6].ColorName}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Background="{Binding Battle.TurnQueue[7].ColorName}"></TextBlock>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="{Binding Battle.TurnQueue[8].ColorName}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Background="{Binding Battle.TurnQueue[9].ColorName}"></TextBlock>
+        </Grid>
+        <Grid Grid.Column="5" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="{Binding Battle.TurnQueue[10].ColorName}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Background="{Binding Battle.TurnQueue[11].ColorName}"></TextBlock>
+        </Grid>
+        <Button Grid.Column="0" Grid.Row="5"
                 x:Name="attack"
                 Content="Attack"
                 Background="Beige"
                 Click="Attack_Click"/>
-        <Button Grid.Column="1" Grid.Row="4"
+        <Button Grid.Column="1" Grid.Row="5"
                 x:Name="cast"
                 Content="{Binding Battle.AblName}"
                 Background="Beige"
                 Click="Cast_Click"
                 Visibility="{Binding Battle.AblVis, Converter={StaticResource BooleanToVis}}"/>
-        <Button Grid.Column="2" Grid.Row="4"
+        <Button Grid.Column="2" Grid.Row="5"
                 x:Name="wait"
                 Content="Wait"
                 Background="Beige"
                 Click="Wait_Click"/>
-        <Button Grid.Column="3" Grid.Row="4"
+        <Button Grid.Column="3" Grid.Row="5"
                 x:Name="defend"
                 Content="Defend"
                 Background="Beige"

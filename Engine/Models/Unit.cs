@@ -13,15 +13,15 @@ namespace Engine.Models
         public ActiveAbl ActiveAbl { get; set; }
         public int Health { get; set; }
         public int Attack { get; set; }
-        public int Defence { get; set; }
+        public int Defense { get; set; }
         public int MinDamage { get; set; }
         public int MaxDamage { get; set; }
         public string ImageName { get; set; }
         private Random _damage = new Random();
         public double Initiative { get; set; }
         public Unit() { }
-        public Unit(string type, PassiveAbl ability, ActiveAbl abl,int health, int attack,
-                    int defence, int minDamage,
+        public Unit(string type, PassiveAbl ability, ActiveAbl abl, int health, int attack,
+                    int defense, int minDamage,
                     int maxDamage, double initiative,
                     string imageName)
         {
@@ -30,7 +30,7 @@ namespace Engine.Models
             this.Type = type;
             this.Attack = attack;
             this.Health = health;
-            this.Defence = defence;
+            this.Defense = defense;
             this.MinDamage = minDamage;
             this.MaxDamage = maxDamage;
             this.Initiative = initiative;
@@ -43,7 +43,7 @@ namespace Engine.Models
             Type = other.Type;
             Health = other.Health;
             Attack = other.Attack;
-            Defence = other.Defence;
+            Defense = other.Defense;
             MinDamage = other.MinDamage;
             MaxDamage = other.MaxDamage;
             Initiative = other.Initiative;
@@ -54,6 +54,7 @@ namespace Engine.Models
             return _damage.Next(MinDamage, MaxDamage);
         }
     }
+
     public class Pair<T, K>
     {
         public T First { get; set; }

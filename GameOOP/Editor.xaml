@@ -7,6 +7,144 @@
         mc:Ignorable="d"
         Title="Editor" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Grid.Column="0" Grid.Row="0" Content="Menu" Click="Button_Click"></Button>
+        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="18" Foreground="Black">Cast:</Run>
+        </TextBlock>
         
+        <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Defense:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" x:Name="_a1" HorizontalAlignment="Center" Foreground="Coral" Text="1"></TextBox>
+        
+        <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Attack:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" x:Name="_a2" HorizontalAlignment="Center" Foreground="Coral" Text="1"></TextBox>
+        
+        <TextBlock Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Initiative:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="6" VerticalAlignment="Center" x:Name="_a3" HorizontalAlignment="Center" Foreground="Coral" Text="1"></TextBox>
+        
+        <TextBlock Grid.Row="2" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Damage:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="8" VerticalAlignment="Center" x:Name="_a4" HorizontalAlignment="Center" Foreground="Coral" Text="1"></TextBox>
+        
+        <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="13.5" Foreground="Black">RawDamage:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" x:Name="_a5" HorizontalAlignment="Center" Foreground="Coral" Text="1"></TextBox>
+        
+        <TextBlock Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Heal:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="4" VerticalAlignment="Center" x:Name="_a6" HorizontalAlignment="Center" Foreground="Coral" Text="1"></TextBox>
+        
+        <TextBlock Grid.Row="3" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Friendly:</Run>
+        </TextBlock>
+        <ComboBox Grid.Row="3" Grid.Column="6" VerticalAlignment="Center" x:Name="_a7" HorizontalAlignment="Center">
+            <TextBlock>False</TextBlock>
+            <TextBlock>True</TextBlock>
+        </ComboBox>
+        
+        <TextBlock Grid.Row="3" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Aoe:</Run>
+        </TextBlock>
+        <ComboBox Grid.Row="3" Grid.Column="8" VerticalAlignment="Center" x:Name="_a8" HorizontalAlignment="Center">
+            <TextBlock>False</TextBlock>
+            <TextBlock>True</TextBlock>
+        </ComboBox>
+        
+        <TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Name:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" x:Name="_a9" HorizontalAlignment="Center" Foreground="Coral" Text="" 
+                 Grid.ColumnSpan="2"></TextBox>
+        <Button Grid.Row="4" Grid.Column="7" Grid.ColumnSpan="2" Content="Add Cast" Background="CornflowerBlue" Click="AddCast"></Button>
+
+        
+        <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2">
+            <Run FontSize="18" Foreground="Black">Unit</Run>
+        </TextBlock>
+
+        <TextBlock Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Type:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="7" Grid.Column="2" VerticalAlignment="Center" x:Name="_u1" HorizontalAlignment="Center" Foreground="Coral" Text=""></TextBox>
+
+        <TextBlock Grid.Row="7" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Passive:</Run>
+        </TextBlock>
+        <ComboBox Grid.Row="7" Grid.Column="4" VerticalAlignment="Center" x:Name="_u2" HorizontalAlignment="Center" Foreground="Coral" Text=""></ComboBox>
+
+        <TextBlock Grid.Row="7" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Active:</Run>
+        </TextBlock>
+        <ComboBox Grid.Row="7" Grid.Column="6" VerticalAlignment="Center" x:Name="_u3" HorizontalAlignment="Center" Foreground="Coral" Text=""></ComboBox>
+
+        <TextBlock Grid.Row="7" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Health:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="7" Grid.Column="8" VerticalAlignment="Center" x:Name="_u4" HorizontalAlignment="Center" Foreground="Coral" Text="10"></TextBox>
+
+        <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Attack:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" x:Name="_u5" HorizontalAlignment="Center" Foreground="Coral" Text="10"></TextBox>
+
+        <TextBlock Grid.Row="8" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Defense:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="4" VerticalAlignment="Center" x:Name="_u6" HorizontalAlignment="Center" Foreground="Coral" Text="10"></TextBox>
+
+        <TextBlock Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">MinDamage:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="6" VerticalAlignment="Center" x:Name="_u7" HorizontalAlignment="Center" Foreground="Coral" Text="10"></TextBox>
+
+        <TextBlock Grid.Row="8" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">MaxDamage:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="8" VerticalAlignment="Center" x:Name="_u8" HorizontalAlignment="Center" Foreground="Coral" Text="10"></TextBox>
+
+        <TextBlock Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">ImageName:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="9" Grid.Column="2" VerticalAlignment="Center" x:Name="_u9" HorizontalAlignment="Center" Foreground="Coral" Text="Dead.png"></TextBox>
+
+        <TextBlock Grid.Row="9" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Run FontSize="14" Foreground="Black">Initiative:</Run>
+        </TextBlock>
+        <TextBox Grid.Row="9" Grid.Column="4" VerticalAlignment="Center" x:Name="_u10" HorizontalAlignment="Center" Foreground="Coral" Text="10"></TextBox>
+ 
+        <Button Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" Content="Add Unit"
+                Background="CornflowerBlue" Click="AddUnit"></Button>
     </Grid>
 </Window>

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine.Models
 {
@@ -39,14 +35,8 @@ namespace Engine.Models
         }
         public void UpdateArmy(Army other)
         {
-            if (other.Size > 6)
-            {
-                Size = 6;
-            }
-            else
-            {
-                Size = other.Size;
-            }
+            Size = other.Size > 6 ? 6 : other.Size;
+
             UnitsStack[] tmp = other.GetArmy();
             for (int i = 0; i < Size; i++)
             {

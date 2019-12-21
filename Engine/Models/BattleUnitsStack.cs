@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Engine.Models
@@ -13,69 +8,80 @@ namespace Engine.Models
         public int CurrentUnits { get; private set; }
         public double LastHp { get; private set; }
         public double CurrentAttack { get; private set; }
-        public double CurrentDamage { get; private set; }
+        private double _curdmg;
+        public double CurrentDamage
+        {
+            get
+            {
+                _curdmg = Type.Damage();
+                CurrentDamage = _curdmg;
+                return _curdmg;
+            }
+            private set { _curdmg = value; OnPropertyChanged(nameof(CurrentDamage)); }
+        }
         public double CurrentInitiative { get; private set; }
         public double CurrentDefence { get; private set; }
         public bool ActiveAblStatus { get; private set; }
         public bool IsWaiting { get; set; }
-        private bool _is_alive;
+        private bool _isAlive;
         public bool IsAlive
         {
-            get { return _is_alive; }
+            get => _isAlive;
             private set
             {
-                _is_alive = value;
+                _isAlive = value;
                 OnPropertyChanged(nameof(IsAlive));
             }
         }
         public bool CounterAttack { get; set; }
-        private string color;
+        private string _color;
         public string Color
         {
-            get { return color; }
+            get => _color;
             set
             {
-                color = value;
+                _color = value;
                 OnPropertyChanged(nameof(Color));
             }
         }
-        private string tfilename;
+        private string _tfilename;
         public string FileName
         {
-            get { return tfilename; }
+            get => _tfilename;
             set
             {
-                tfilename = value;
+                _tfilename = value;
                 OnPropertyChanged(nameof(FileName));
             }
         }
-        private string tstring_def;
-        public string string_def
+        private string _tstringDef;
+        public string StringDef
         {
-            get { return tstring_def; }
+            get => _tstringDef;
             set
             {
-                tstring_def = value;
-                OnPropertyChanged(nameof(string_def));
+                _tstringDef = value;
+                OnPropertyChanged(nameof(StringDef));
             }
         }
-        public BattleUnitsStack(Unit Type, int Count) : base(Type, Count)
+        public BattleUnitsStack(Unit type, int count) : base(type, count)
         {
-            CurrentUnits = Count;
-            LastHp = Type.Health;
-            CurrentAttack = Type.Attack;
-            CurrentDamage = Type.Damage();
-            CurrentInitiative = Type.Initiative;
-            CurrentDefence = Type.Defence;
+            CurrentUnits = count;
+            LastHp = type.Health;
+            CurrentAttack = type.Attack;
+            CurrentDamage = type.Damage();
+            CurrentInitiative = type.Initiative;
+            CurrentDefence = type.Defense;
             IsWaiting = false;
             IsAlive = true;
             Color = "Transparent";
-            FileName = Type.ImageName;
+            FileName = type.ImageName;
             CounterAttack = true;
-            ActiveAblStatus = Type.ActiveAbl.WasNotUsed;
+            ActiveAblStatus = type.ActiveAbl.WasNotUsed;
             ChangeStringDef();
         }
-        public BattleUnitsStack(UnitsStack other) : this(other.Type, other.Count) { }
+        public BattleUnitsStack(UnitsStack other)
+            : this(other.Type, other.Count) { }
         public BattleUnitsStack()
         {
             IsAlive = false;
@@ -95,15 +101,15 @@ namespace Engine.Models
         {
             ActiveAblStatus = !ActiveAblStatus;
         }
-        public void TakeDmg(double total_dmg)
+        public void TakeDmg(double totalDmg)
         {
-            if (total_dmg <= 0)
+            if (totalDmg <= 0)
                 return;
-            double _tmp_hp = (CurrentUnits - 1) * Type.Health + LastHp - total_dmg;
-            if (_tmp_hp > 0)
+            double tmpHp = (CurrentUnits - 1) * Type.Health + LastHp - totalDmg;
+            if (tmpHp > 0)
             {
-                CurrentUnits = (int)_tmp_hp / Type.Health + 1;
-                LastHp = _tmp_hp - (CurrentUnits - 1) * Type.Health;
+                CurrentUnits = (int)tmpHp / Type.Health + 1;
+                LastHp = tmpHp - (CurrentUnits - 1) * Type.Health;
                 if (LastHp == 0)
                 {
                     CurrentUnits--;
@@ -119,28 +125,28 @@ namespace Engine.Models
             }
             ChangeStringDef();
         }
-        public void TakeAttack(BattleUnitsStack _attacker)
+        public void TakeAttack(BattleUnitsStack attacker)
         {
-            double total_dmg = 0;
-            double tmp_def = CurrentDefence;
-            if (_attacker.Type.Ability.AccurateShot)
+            double totalDmg;
+            double tmpDef = CurrentDefence;
+            if (attacker.Type.Ability.AccurateShot)
                 CurrentDefence = 0;
-            if (_attacker.CurrentAttack > CurrentDefence)
+            if (attacker.CurrentAttack > CurrentDefence)
             {
-                total_dmg = _attacker.CurrentUnits *
-                             _attacker.CurrentDamage * (1 + 0.05 * (
-                             _attacker.CurrentAttack - CurrentDefence));
+                totalDmg = attacker.CurrentUnits *
+                             attacker.CurrentDamage * (1 + 0.05 * (
+                             attacker.CurrentAttack - CurrentDefence));
             }
             else
             {
-                total_dmg = _attacker.CurrentUnits *
-                             _attacker.CurrentDamage / (1 + 0.05 * (
-                             CurrentDefence - _attacker.CurrentAttack));
+                totalDmg = attacker.CurrentUnits *
+                             attacker.CurrentDamage / (1 + 0.05 * (
+                             CurrentDefence - attacker.CurrentAttack));
             }
-            if (total_dmg <= 0)
+            if (totalDmg <= 0)
                 return;
-            CurrentDefence = tmp_def;
-            TakeDmg(total_dmg);
+            CurrentDefence = tmpDef;
+            TakeDmg(totalDmg);
         }
         public void Heal(double hp)
         {
@@ -148,9 +154,9 @@ namespace Engine.Models
                 hp *= 2;
             if (hp <= 0)           
                 return;           
-            double _tmp_hp = (CurrentUnits - 1) * Type.Health + LastHp + hp;
-            CurrentUnits = (int)_tmp_hp / Type.Health + 1;
-            LastHp = _tmp_hp - (CurrentUnits - 1) * Type.Health;
+            double tmpHp = (CurrentUnits - 1) * Type.Health + LastHp + hp;
+            CurrentUnits = (int)tmpHp / Type.Health + 1;
+            LastHp = tmpHp - (CurrentUnits - 1) * Type.Health;
             if (CurrentUnits > Count)
             {
                 CurrentUnits = Count;
@@ -160,12 +166,12 @@ namespace Engine.Models
         }
         private void ChangeStringDef()
         {
-            string_def = $"{Type.Type} {CurrentUnits}\n" +
+            StringDef = $"{Type.Type} {CurrentUnits}\n" +
                 $"Hp of last: {LastHp}\n" +
                 $"Attack: {CurrentAttack}\n" +
                 $"Damage: {CurrentDamage}\n" +
                 $"Initiative: {CurrentInitiative}\n" +
-                $"Defence: {CurrentDefence}";
+                $"Defense: {CurrentDefence}";
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

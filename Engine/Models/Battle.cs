@@ -5,31 +5,43 @@ namespace Engine.Models
 {
     public class Battle : INotifyPropertyChanged
     {
-        public BattleArmy _first { get; private set; }
-        public BattleArmy _second { get; private set; }
-        private bool move_of_first_army;
-        private BattleUnitsStack attacker;
-        private int id_of_curent_stack_in_army;
-        private bool is_continue;
-        private Pair<int, int>[] turn_priority;
-        private Army ret_arm_1;
-        private Army ret_arm_2;
-        private int prior_pointer = 0;
-        private int waiting_units = 0;
-        private string _abl_name;
+        public BattleArmy First { get; }
+        public BattleArmy Second { get; }
+        private bool _moveOfFirstArmy;
+        private BattleUnitsStack _attacker;
+        private int _idOfCurrentStackInArmy;
+        private bool _isContinue;
+        private Pair<int, int>[] _turnPriority;
+        public QueueToShow[] TurnQueue { get; }
+        private bool _isEnded;
+        public bool IsEnded
+        {
+            get => _isEnded;
+            set
+            {
+                _isEnded = value;
+                OnPropertyChanged(nameof(IsEnded));
+            }
+        }
+        public Army RetArm1 { get; }
+        public Army RetArm2 { get; }
+        private int _priorPointer;
+        private int _waitingUnits;
+        private string _ablName;
+
         public string AblName
         {
-            get { return _abl_name; }
+            get => _ablName;
             private set
             {
-                _abl_name = value;
+                _ablName = value;
                 OnPropertyChanged(nameof(AblName));
             }
         }
         private bool _ablVis;
         public bool AblVis
         {
-            get { return _ablVis; }
+            get => _ablVis;
             private set
             {
                 _ablVis = value;
@@ -38,251 +50,273 @@ namespace Engine.Models
         }
         public Battle(Army first, Army second)
         {
-            ret_arm_1 = first;
-            ret_arm_2 = second;
-            is_continue = true;
-            _first = new BattleArmy(first);
-            _second = new BattleArmy(second);
-            InitiaizePriority();
-            RecalculPrior();
+            IsEnded = false;
+            RetArm1 = first;
+            RetArm2 = second;
+            _isContinue = true;
+            First = new BattleArmy(first);
+            Second = new BattleArmy(second);
+            TurnQueue = new QueueToShow[12];
+            for (int i = 0; i < 12; i++)
+            {
+                TurnQueue[i] = new QueueToShow();
+            }
+            InitializePriority();
+            RecalculatePriority();
             WhoMoves();
         }
-        public void WhoMoves()
+
+        private void QueueChange()
         {
-            if (turn_priority[prior_pointer].Second == 1)
+            for (int i = 0; i < 12; i++)
             {
-                move_of_first_army = true;
-                id_of_curent_stack_in_army = turn_priority[prior_pointer].First;
-                _first[id_of_curent_stack_in_army].Color = "Green";
+                TurnQueue[i].Visibility = false;
+                TurnQueue[i].ColorName = "Transparent";
+            }
+            int dead = 0;
+            for (int i = 0; i < _turnPriority.Length; i++)
+            {
+                switch (_turnPriority[i].Second)
+                {
+                    case 1:
+                        TurnQueue[i - dead].ImageName = First[_turnPriority[i].First].Type.ImageName;
+                        TurnQueue[i - dead].ColorName = First[_turnPriority[i].First].Color;
+                        TurnQueue[i - dead].Visibility = First[_turnPriority[i].First].IsAlive;
+                        if (!First[_turnPriority[i].First].IsAlive)
+                            dead++;
+                        break;
+                    case 2:
+                        TurnQueue[i - dead].ImageName = Second[_turnPriority[i].First].Type.ImageName;
+                        TurnQueue[i - dead].ColorName = Second[_turnPriority[i].First].Color;
+                        TurnQueue[i - dead].Visibility = Second[_turnPriority[i].First].IsAlive;
+                        if (!Second[_turnPriority[i].First].IsAlive)
+                            dead++;
+                        break;
+                }
+            }
+        }
+
+        private void WhoMoves()
+        {
+            First.CheckIfDefeated();
+            Second.CheckIfDefeated();
+            if (First.IsDefeated || Second.IsDefeated)
+                EndBattle();
+            if (_turnPriority[_priorPointer].Second == 1)
+            {
+                _moveOfFirstArmy = true;
+                _idOfCurrentStackInArmy = _turnPriority[_priorPointer].First;
+                First[_idOfCurrentStackInArmy].Color = "Green";
             }
             else
             {
-                move_of_first_army = false;
-                id_of_curent_stack_in_army = turn_priority[prior_pointer].First;
-                _second[id_of_curent_stack_in_army].Color = "Green";
+                _moveOfFirstArmy = false;
+                _idOfCurrentStackInArmy = _turnPriority[_priorPointer].First;
+                Second[_idOfCurrentStackInArmy].Color = "Green";
             }
-            if (move_of_first_army)
+            _attacker = _moveOfFirstArmy ? First[_idOfCurrentStackInArmy] : Second[_idOfCurrentStackInArmy];
+            if (!_attacker.IsAlive)
             {
-                attacker = _first[id_of_curent_stack_in_army];
-            }
-            else
-            {
-                attacker = _second[id_of_curent_stack_in_army];
-            }
-            if (!attacker.IsAlive)
-            {
+                QueueChange();
                 EndTurn();
             }
-            AblName = attacker.Type.ActiveAbl.Name;
-            AblVis = attacker.ActiveAblStatus;
+            AblName = _attacker.Type.ActiveAbl.Name;
+            AblVis = _attacker.ActiveAblStatus;
+            QueueChange();
         }
-        private void InitiaizePriority()
+        private void InitializePriority()
         {
-            turn_priority = new Pair<int, int>[_first.Size + _second.Size];
-            for (int i = 0; i < _first.Size + _second.Size; i++)
+            _turnPriority = new Pair<int, int>[First.Size + Second.Size];
+            for (int i = 0; i < First.Size + Second.Size; i++)
             {
-                turn_priority[i] = new Pair<int, int>();
-                if (i < _first.Size)
+                _turnPriority[i] = new Pair<int, int>();
+                if (i < First.Size)
                 {
-                    turn_priority[i].First = i;
-                    turn_priority[i].Second = 1;
+                    _turnPriority[i].First = i;
+                    _turnPriority[i].Second = 1;
                 }
                 else
                 {
-                    turn_priority[i].First = i - _first.Size;
-                    turn_priority[i].Second = 2;
+                    _turnPriority[i].First = i - First.Size;
+                    _turnPriority[i].Second = 2;
                 }
             }
         }
-        private void RecalculPrior()
+        private void RecalculatePriority()
         {
-            for (int i = 0; i < _first.Size + _second.Size; i++)
+            for (int i = 0; i < First.Size + Second.Size; i++)
             {
-                for (int j = _first.Size + _second.Size - 1; j > i; j--)
+                for (int j = First.Size + Second.Size - 1; j > i; j--)
                 {
-                    double s1;
-                    double s2 = 0;
-                    if (turn_priority[j].Second == 1)
-                    {
-                        s1 = _first[turn_priority[j].First].CurrentInitiative;
-                    }
-                    else
-                    {
-                        s1 = _second[turn_priority[j].First].CurrentInitiative;
-                    }
-                    if (turn_priority[j - 1].Second == 1)
-                    {
-                        s2 = _first[turn_priority[j - 1].First].CurrentInitiative;
-                    }
-                    else
-                    {
-                        s2 = _second[turn_priority[j - 1].First].CurrentInitiative;
-                    }
+                    var s1 = _turnPriority[j].Second == 1 ? First[_turnPriority[j].First].CurrentInitiative 
+                        : Second[_turnPriority[j].First].CurrentInitiative;
+                    var s2 = _turnPriority[j - 1].Second == 1 ? First[_turnPriority[j - 1].First].CurrentInitiative 
+                        : Second[_turnPriority[j - 1].First].CurrentInitiative;
                     if (s2 < s1)
                     {
-                        Pair<int, int> tmp = turn_priority[j];
-                        turn_priority[j] = turn_priority[j - 1];
-                        turn_priority[j - 1] = tmp;
+                        var tmp = _turnPriority[j];
+                        _turnPriority[j] = _turnPriority[j - 1];
+                        _turnPriority[j - 1] = tmp;
                     }
                 }
             }
         }
         private void EndTurn()
         {
-            prior_pointer++;
-            if (move_of_first_army)
+            _priorPointer++;
+            if (_moveOfFirstArmy)
             {
-                _first[id_of_curent_stack_in_army].Color = "Transparent";
+                First[_idOfCurrentStackInArmy].Color = "Transparent";
             }
             else
             {
-                _second[id_of_curent_stack_in_army].Color = "Transparent";
+                Second[_idOfCurrentStackInArmy].Color = "Transparent";
             }
-            if (prior_pointer > _first.Size + _second.Size - 1)
+            if (_priorPointer > First.Size + Second.Size - 1)
             {
-                prior_pointer = 0;
-                waiting_units = 0;
-                InitiaizePriority();
-                RecalculPrior();
-                for (int i = 0; i < _first.Size; i++)
+                _priorPointer = 0;
+                _waitingUnits = 0;
+                InitializePriority();
+                RecalculatePriority();
+                for (int i = 0; i < First.Size; i++)
                 {
-                    _first[i].IsWaiting = false;
-                    _first[i].CounterAttack = true;
+                    First[i].IsWaiting = false;
+                    First[i].CounterAttack = true;
                 }
-                for (int i = 0; i < _second.Size; i++)
+                for (int i = 0; i < Second.Size; i++)
                 {
-                    _second[i].IsWaiting = false;
-                    _second[i].CounterAttack = true;
+                    Second[i].IsWaiting = false;
+                    Second[i].CounterAttack = true;
                 }
             }
             WhoMoves();
         }
         public void Wait()
         {
-            for (int i = prior_pointer; i < _first.Size + _second.Size - waiting_units - 1; i++)
+            for (int i = _priorPointer; i < First.Size + Second.Size - _waitingUnits - 1; i++)
             {
-                Pair<int, int> tmp = turn_priority[i];
-                turn_priority[i] = turn_priority[i + 1];
-                turn_priority[i + 1] = tmp;
+                Pair<int, int> tmp = _turnPriority[i];
+                _turnPriority[i] = _turnPriority[i + 1];
+                _turnPriority[i + 1] = tmp;
             }
-            attacker.IsWaiting = true;
-            waiting_units++;
-            prior_pointer--;
+            _attacker.IsWaiting = true;
+            _waitingUnits++;
+            _priorPointer--;
             EndTurn();
         }
         public void Defend()
         {
             ActiveAbl tmp = new ActiveAbl(1.4, 1, 1, 1, 0, 0, true, false, "def");
-            if (move_of_first_army)
+            if (_moveOfFirstArmy)
             {
-                _first[id_of_curent_stack_in_army].TakeActiveAbl(tmp);
+                First[_idOfCurrentStackInArmy].TakeActiveAbl(tmp);
             }
             else
             {
-                _second[id_of_curent_stack_in_army].TakeActiveAbl(tmp);
+                Second[_idOfCurrentStackInArmy].TakeActiveAbl(tmp);
             }
             EndTurn();
         }
-        public void Attack1(int id_of_target)
+        public void Attack1(int idOfTarget)
         {
-            if (attacker.Type.Ability.GreatCleave)
+            if (_attacker.Type.Ability.GreatCleave)
             {
-                is_continue = false;
-                if (move_of_first_army)
+                _isContinue = false;
+                if (_moveOfFirstArmy)
                 {
-                    for (int i = 0; i < _second.Size; i++)
+                    for (int i = 0; i < Second.Size; i++)
                     {
-                        if (i == _second.Size - 1)
-                            is_continue = true;
+                        if (i == Second.Size - 1)
+                            _isContinue = true;
                         Attack(i);
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < _first.Size; i++)
+                    for (int i = 0; i < First.Size; i++)
                     {
-                        if (i == _first.Size - 1)
-                            is_continue = true;
+                        if (i == First.Size - 1)
+                            _isContinue = true;
                         Attack(i);
                     }
                 }
             }
             else
             {
-                Attack(id_of_target);
+                Attack(idOfTarget);
             }
 
         }
-        public void Attack(int id_of_target)
+        public void Attack(int idOfTarget)
         {
-            if (move_of_first_army)
+            if (_moveOfFirstArmy)
             {
-                _second.TakeAttack(attacker, id_of_target);
-                if ((!(attacker.Type.Ability.Shooter) && _second[id_of_target].CounterAttack &&
-                    !(_second[id_of_target].Type.Ability.Shooter) || _second[id_of_target].Type.Ability.Reflection) 
-                    && !(attacker.Type.Ability.NoResistance))
+                Second.TakeAttack(_attacker, idOfTarget);
+                if ((!(_attacker.Type.Ability.Shooter) && Second[idOfTarget].CounterAttack &&
+                    !(Second[idOfTarget].Type.Ability.Shooter) || Second[idOfTarget].Type.Ability.Reflection) 
+                    && !(_attacker.Type.Ability.NoResistance))
                 {
-                    _first.TakeAttack(_second[id_of_target], id_of_curent_stack_in_army);
-                    _second[id_of_target].CounterAttack = false;
+                    First.TakeAttack(Second[idOfTarget], _idOfCurrentStackInArmy);
+                    Second[idOfTarget].CounterAttack = false;
                 }                
             }
             else
             {
-                _first.TakeAttack(attacker, id_of_target);
-                if ((!(attacker.Type.Ability.Shooter) && _first[id_of_target].CounterAttack &&
-                    !(_first[id_of_target].Type.Ability.Shooter) || _first[id_of_target].Type.Ability.Reflection)
-                    && !(attacker.Type.Ability.NoResistance))
+                First.TakeAttack(_attacker, idOfTarget);
+                if ((!(_attacker.Type.Ability.Shooter) && First[idOfTarget].CounterAttack &&
+                    !(First[idOfTarget].Type.Ability.Shooter) || First[idOfTarget].Type.Ability.Reflection)
+                    && !(_attacker.Type.Ability.NoResistance))
                 {
-                    _second.TakeAttack(_first[id_of_target], id_of_curent_stack_in_army);
-                    _first[id_of_target].CounterAttack = false;
+                    Second.TakeAttack(First[idOfTarget], _idOfCurrentStackInArmy);
+                    First[idOfTarget].CounterAttack = false;
                 }
             }
-            if (is_continue)
+            if (_isContinue)
                 EndTurn();
         }
-        public void Cast1(int id_of_target)
+        public void Cast1(int idOfTarget)
         {
-            if (attacker.Type.ActiveAbl.Aoe)
+            if (_attacker.Type.ActiveAbl.Aoe)
             {
-                is_continue = false;
-                if (attacker.Type.ActiveAbl.Friendly)
+                _isContinue = false;
+                if (_attacker.Type.ActiveAbl.Friendly)
                 {
-                    if (move_of_first_army)
+                    if (_moveOfFirstArmy)
                     {
-                        for (int i = 0; i < _first.Size; i++)
+                        for (int i = 0; i < First.Size; i++)
                         {
-                            if (i == _first.Size - 1)
-                                is_continue = true;
+                            if (i == First.Size - 1)
+                                _isContinue = true;
                             Cast(i);
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < _second.Size; i++)
+                        for (int i = 0; i < Second.Size; i++)
                         {
-                            if (i == _second.Size - 1)
-                                is_continue = true;
+                            if (i == Second.Size - 1)
+                                _isContinue = true;
                             Cast(i);
                         }
                     }
                 }
                 else
                 {
-                    if (move_of_first_army)
+                    if (_moveOfFirstArmy)
                     {
-                        for (int i = 0; i < _second.Size; i++)
+                        for (int i = 0; i < Second.Size; i++)
                         {
-                            if (i == _second.Size - 1)
-                                is_continue = true;
+                            if (i == Second.Size - 1)
+                                _isContinue = true;
                             Cast(i);
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < _first.Size; i++)
+                        for (int i = 0; i < First.Size; i++)
                         {
-                            if (i == _first.Size - 1)
-                                is_continue = true;
+                            if (i == First.Size - 1)
+                                _isContinue = true;
                             Cast(i);
                         }
                     }
@@ -290,74 +324,75 @@ namespace Engine.Models
             }
             else
             {
-                Cast(id_of_target);
+                Cast(idOfTarget);
             }
         }
-        public void Cast(int id_of_target)
+        private void Cast(int idOfTarget)
         {
-            attacker.ActiveAblStatusChanged();
-            int army_id;
-            bool is_waiting;
+            if (_isContinue)
+                _attacker.ActiveAblStatusChanged();
+            int armyId;
+            bool isWaiting;
             double initiative;
-            double tmp_initiative;
-            if (attacker.Type.ActiveAbl.Friendly)
+            double tmpInitiative;
+            if (_attacker.Type.ActiveAbl.Friendly)
             {
-                if (move_of_first_army)
+                if (_moveOfFirstArmy)
                 { 
-                    _first[id_of_target].TakeActiveAbl(attacker.Type.ActiveAbl);
-                    army_id = 1;
-                    is_waiting = _first[id_of_target].IsWaiting;
-                    initiative = _first[id_of_target].CurrentInitiative;
+                    First[idOfTarget].TakeActiveAbl(_attacker.Type.ActiveAbl);
+                    armyId = 1;
+                    isWaiting = First[idOfTarget].IsWaiting;
+                    initiative = First[idOfTarget].CurrentInitiative;
                 }
                 else
                 {
-                    _second[id_of_target].TakeActiveAbl(attacker.Type.ActiveAbl);
-                    army_id = 2;
-                    is_waiting = _second[id_of_target].IsWaiting;
-                    initiative = _second[id_of_target].CurrentInitiative;
+                    Second[idOfTarget].TakeActiveAbl(_attacker.Type.ActiveAbl);
+                    armyId = 2;
+                    isWaiting = Second[idOfTarget].IsWaiting;
+                    initiative = Second[idOfTarget].CurrentInitiative;
                 }
             } else
             {
-                if (move_of_first_army)
+                if (_moveOfFirstArmy)
                 {
-                    _second[id_of_target].TakeActiveAbl(attacker.Type.ActiveAbl);
-                    army_id = 2;
-                    is_waiting = _second[id_of_target].IsWaiting;
-                    initiative = _second[id_of_target].CurrentInitiative;
+                    Second[idOfTarget].TakeActiveAbl(_attacker.Type.ActiveAbl);
+                    armyId = 2;
+                    isWaiting = Second[idOfTarget].IsWaiting;
+                    initiative = Second[idOfTarget].CurrentInitiative;
                 }
                 else
                 {
-                    _first[id_of_target].TakeActiveAbl(attacker.Type.ActiveAbl);
-                    army_id = 1;
-                    is_waiting = _first[id_of_target].IsWaiting;
-                    initiative = _first[id_of_target].CurrentInitiative;
+                    First[idOfTarget].TakeActiveAbl(_attacker.Type.ActiveAbl);
+                    armyId = 1;
+                    isWaiting = First[idOfTarget].IsWaiting;
+                    initiative = First[idOfTarget].CurrentInitiative;
                 }
             }
-            if (attacker.Type.ActiveAbl.Initiative > 1)
+            if (_attacker.Type.ActiveAbl.Initiative > 1)
             {
-                for (int i = 0; i < _first.Size + _second.Size; i++)
+                for (int i = 0; i < First.Size + Second.Size; i++)
                 {
-                    if (turn_priority[i].First == id_of_target &&
-                        turn_priority[i].Second == army_id)
+                    if (_turnPriority[i].First == idOfTarget &&
+                        _turnPriority[i].Second == armyId)
                     {
-                        if (!is_waiting && i > prior_pointer + 1)
+                        if (!isWaiting && i > _priorPointer + 1)
                         {
-                            for (int j = i; j > prior_pointer + 1; j--)
+                            for (int j = i; j > _priorPointer + 1; j--)
                             {
-                                if (turn_priority[j - 1].Second == 1)
+                                if (_turnPriority[j - 1].Second == 1)
                                 {
-                                    tmp_initiative = _first[turn_priority[j - 1].First].CurrentInitiative;
+                                    tmpInitiative = First[_turnPriority[j - 1].First].CurrentInitiative;
                                 }
                                 else
                                 {
-                                    tmp_initiative = _second[turn_priority[j - 1].First].CurrentInitiative;
+                                    tmpInitiative = Second[_turnPriority[j - 1].First].CurrentInitiative;
 
                                 }
-                                if (initiative > tmp_initiative)
+                                if (initiative > tmpInitiative)
                                 {
-                                    Pair<int, int> tmp = turn_priority[j];
-                                    turn_priority[j] = turn_priority[j - 1];
-                                    turn_priority[j - 1] = tmp;
+                                    Pair<int, int> tmp = _turnPriority[j];
+                                    _turnPriority[j] = _turnPriority[j - 1];
+                                    _turnPriority[j - 1] = tmp;
                                 }
                                 else
                                 {
@@ -365,24 +400,24 @@ namespace Engine.Models
                                 }
                             }
                         }
-                        if (is_waiting && i > prior_pointer + 1)
+                        if (isWaiting && i > _priorPointer + 1)
                         {
-                            for (int j = i; j < _first.Size + _second.Size - 1; j++)
+                            for (int j = i; j < First.Size + Second.Size - 1; j++)
                             {
-                                if (turn_priority[j + 1].Second == 1)
+                                if (_turnPriority[j + 1].Second == 1)
                                 {
-                                    tmp_initiative = _first[turn_priority[j + 1].First].CurrentInitiative;
+                                    tmpInitiative = First[_turnPriority[j + 1].First].CurrentInitiative;
                                 }
                                 else
                                 {
-                                    tmp_initiative = _second[turn_priority[j + 1].First].CurrentInitiative;
+                                    tmpInitiative = Second[_turnPriority[j + 1].First].CurrentInitiative;
 
                                 }
-                                if (initiative > tmp_initiative)
+                                if (initiative > tmpInitiative)
                                 {
-                                    Pair<int, int> tmp = turn_priority[j];
-                                    turn_priority[j] = turn_priority[j + 1];
-                                    turn_priority[j + 1] = tmp;
+                                    Pair<int, int> tmp = _turnPriority[j];
+                                    _turnPriority[j] = _turnPriority[j + 1];
+                                    _turnPriority[j + 1] = tmp;
                                 }
                                 else
                                 {
@@ -394,31 +429,31 @@ namespace Engine.Models
                     }
                 }
             }
-            if (attacker.Type.ActiveAbl.Initiative < 1)
+            if (_attacker.Type.ActiveAbl.Initiative < 1)
             {
-                for (int i = 0; i < _first.Size + _second.Size; i++)
+                for (int i = 0; i < First.Size + Second.Size; i++)
                 {
-                    if (turn_priority[i].First == id_of_target &&
-                        turn_priority[i].Second == army_id)
+                    if (_turnPriority[i].First == idOfTarget &&
+                        _turnPriority[i].Second == armyId)
                     {
-                        if (!is_waiting && i > prior_pointer)
+                        if (!isWaiting && i > _priorPointer)
                         {
-                            for (int j = i; j < _first.Size + _second.Size - 1 - waiting_units; j++)
+                            for (int j = i; j < First.Size + Second.Size - 1 - _waitingUnits; j++)
                             {
-                                if (turn_priority[j + 1].Second == 1)
+                                if (_turnPriority[j + 1].Second == 1)
                                 {
-                                    tmp_initiative = _first[turn_priority[j + 1].First].CurrentInitiative;
+                                    tmpInitiative = First[_turnPriority[j + 1].First].CurrentInitiative;
                                 }
                                 else
                                 {
-                                    tmp_initiative = _second[turn_priority[j + 1].First].CurrentInitiative;
+                                    tmpInitiative = Second[_turnPriority[j + 1].First].CurrentInitiative;
 
                                 }
-                                if (initiative < tmp_initiative)
+                                if (initiative < tmpInitiative)
                                 {
-                                    Pair<int, int> tmp = turn_priority[j];
-                                    turn_priority[j] = turn_priority[j + 1];
-                                    turn_priority[j + 1] = tmp;
+                                    Pair<int, int> tmp = _turnPriority[j];
+                                    _turnPriority[j] = _turnPriority[j + 1];
+                                    _turnPriority[j + 1] = tmp;
                                 }
                                 else
                                 {
@@ -426,24 +461,24 @@ namespace Engine.Models
                                 }
                             }
                         }
-                        if (is_waiting && i > prior_pointer + 1)
+                        if (isWaiting && i > _priorPointer + 1)
                         {
-                            for (int j = i; j > prior_pointer + 1; j--)
+                            for (int j = i; j > _priorPointer + 1; j--)
                             {
-                                if (turn_priority[j - 1].Second == 1)
+                                if (_turnPriority[j - 1].Second == 1)
                                 {
-                                    tmp_initiative = _first[turn_priority[j - 1].First].CurrentInitiative;
+                                    tmpInitiative = First[_turnPriority[j - 1].First].CurrentInitiative;
                                 }
                                 else
                                 {
-                                    tmp_initiative = _second[turn_priority[j - 1].First].CurrentInitiative;
+                                    tmpInitiative = Second[_turnPriority[j - 1].First].CurrentInitiative;
 
                                 }
-                                if (initiative < tmp_initiative)
+                                if (initiative < tmpInitiative)
                                 {
-                                    Pair<int, int> tmp = turn_priority[j];
-                                    turn_priority[j] = turn_priority[j - 1];
-                                    turn_priority[j - 1] = tmp;
+                                    Pair<int, int> tmp = _turnPriority[j];
+                                    _turnPriority[j] = _turnPriority[j - 1];
+                                    _turnPriority[j - 1] = tmp;
                                 }
                                 else
                                 {
@@ -455,8 +490,52 @@ namespace Engine.Models
                     }
                 }
             }
-            if (is_continue)
+            if (_isContinue)
                 EndTurn();
+        }
+
+        public void EndBattle()
+        {
+            IsEnded = true;
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+    }
+
+    public class QueueToShow : INotifyPropertyChanged
+    {
+        private string _imageName;
+        private string _colorName;
+        private bool _visibility;
+        public string ImageName
+        {
+            get => _imageName;
+            set
+            {
+                _imageName = value;
+                OnPropertyChanged(nameof(ImageName));
+            }
+        }
+        public string ColorName
+        {
+            get => _colorName;
+            set
+            {
+                _colorName = value;
+                OnPropertyChanged(nameof(ColorName));
+            }
+        }
+        public bool Visibility
+        {
+            get => _visibility;
+            set
+            {
+                _visibility = value;
+                OnPropertyChanged(nameof(Visibility));
+            }
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

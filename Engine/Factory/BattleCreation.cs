@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
-using System.Security.Permissions;
 using Engine.Models;
 
 namespace Engine.Factory
@@ -20,12 +16,15 @@ namespace Engine.Factory
         public static readonly List<PassiveAbl> GamePassiveAbl = new List<PassiveAbl>();
         public BattleCreation()
         {
+            GameUnits.Clear();
+            GameActiveAbl.Clear();
+            GamePassiveAbl.Clear();
             if (File.Exists(ActiveAbility))
             {
                 XmlDocument dataAAbl = new XmlDocument();
                 dataAAbl.LoadXml(File.ReadAllText(ActiveAbility));
 
-                LoadActiveAblsFromNodes(dataAAbl.SelectNodes("/ActiveAbls/activeAbl"));
+                LoadActiveAbilitiesFromNodes(dataAAbl.SelectNodes("/ActiveAbls/activeAbl"));
             }
             else
             {
@@ -36,7 +35,7 @@ namespace Engine.Factory
                 XmlDocument dataPAbl = new XmlDocument();
                 dataPAbl.LoadXml(File.ReadAllText(PassiveAbility));
 
-                LoadPassiveAblsFromNodes(dataPAbl.SelectNodes("/PassiveAbls/passiveAbl"));
+                LoadPassiveAbilitiesFromNodes(dataPAbl.SelectNodes("/PassiveAbls/passiveAbl"));
             }
             else
             {
@@ -64,37 +63,33 @@ namespace Engine.Factory
 
             foreach (XmlNode node in nodes)
             {
-                string Passive = GetXmlAttribute(node, "Ability");
-                string AblName = GetXmlAttribute(node, "ActiveAbl");
+                string passive = GetXmlAttribute(node, "Ability");
+                string ablName = GetXmlAttribute(node, "ActiveAbl");
                 ActiveAbl uAbility = new ActiveAbl();
                 PassiveAbl uPassive = new PassiveAbl();
-                if (Passive != "none")
+                if (passive != "none")
                 {
-                    for (int i = 0; i < GamePassiveAbl.Count; i++)
+                    foreach (var t in GamePassiveAbl)
                     {
-                        if (GamePassiveAbl[i].Name == Passive)
-                        {
-                            uPassive = GamePassiveAbl[i];
-                            break;
-                        }
+                        if (t.Name != passive) continue;
+                        uPassive = t;
+                        break;
                     }
                 }
-                if (AblName != "")
+                if (ablName != "")
                 {
-                    for (int i = 0; i < GameActiveAbl.Count; i++)
+                    foreach (var t in GameActiveAbl)
                     {
-                        if (GameActiveAbl[i].Name == AblName)
-                        {
-                            uAbility = GameActiveAbl[i];
-                            break;
-                        }
+                        if (t.Name != ablName) continue;
+                        uAbility = t;
+                        break;
                     }
                 }
                 Unit u = new Unit(GetXmlAttribute(node, "Type"),
                                   uPassive, uAbility,
                                   GetXmlAttributeAsInt(node, "Health"),
                                   GetXmlAttributeAsInt(node, "Attack"),
-                                  GetXmlAttributeAsInt(node, "Defence"),
+                                  GetXmlAttributeAsInt(node, "Defense"),
                                   GetXmlAttributeAsInt(node, "MinDamage"),
                                   GetXmlAttributeAsInt(node, "MaxDamage"),
                                   GetXmlAttributeAsDouble(node, "Initiative"),
@@ -103,14 +98,14 @@ namespace Engine.Factory
             }
         }
 
-        private static void LoadActiveAblsFromNodes(XmlNodeList nodes)
+        private static void LoadActiveAbilitiesFromNodes(XmlNodeList nodes)
         {
             if (nodes == null)
                 return;
             foreach (XmlNode node in nodes)
             {
                 ActiveAbl gameItem =
-                    new ActiveAbl(GetXmlAttributeAsDouble(node, "Defence"),
+                    new ActiveAbl(GetXmlAttributeAsDouble(node, "Defense"),
                                 GetXmlAttributeAsDouble(node, "Attack"),
                                 GetXmlAttributeAsDouble(node, "Initiative"),
                                 GetXmlAttributeAsDouble(node, "Damage"),
@@ -122,7 +117,7 @@ namespace Engine.Factory
                 GameActiveAbl.Add(gameItem);
             }
         }
-        private static void LoadPassiveAblsFromNodes(XmlNodeList nodes)
+        private static void LoadPassiveAbilitiesFromNodes(XmlNodeList nodes)
         {
             if (nodes == null)
                 return;
@@ -173,6 +168,14 @@ namespace Engine.Factory
         public List<Unit> GetUnitsData()
         {
             return GameUnits;
+        }
+        public List<ActiveAbl> GetAblsData()
+        {
+            return GameActiveAbl;
+        }
+        public List<PassiveAbl> GetPassData()
+        {
+            return GamePassiveAbl;
         }
     }
 }
