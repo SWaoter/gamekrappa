@@ -4,18 +4,14 @@ namespace Engine.ViewModels
 {
     public class ExpandDataMV
     {
-        public static void AddCast(double Defense, double Attack_, double Initiative,
-            double Damage, double Hp_, double Heal,
-            bool Friendly, bool Aoe, string Name)
-        {
-            ExpandData.AddCast(Defense, Attack_, Initiative, Damage, Hp_, Heal, Friendly, Aoe, Name);
-        }
+        public static void AddCast(double defense, double attack, double initiative,
+            double damage, double hp, double heal,
+            bool friendly, bool aoe, string name) =>
+            ExpandData.AddCast(defense, attack, initiative, damage, hp, heal, friendly, aoe, name);
 
-        public static void AddUnit(string Type_, string Ability_, string ActiveAbl_,
-            int Health_, int Attack_, int Defense_,
-            int MinDamage_, int MaxDamage_, string ImageName_, double Initiative_)
-        {
-            ExpandData.AddUnit(Type_, Ability_, ActiveAbl_, Health_, Attack_, Defense_, MinDamage_, MaxDamage_, ImageName_, Initiative_);
-        }
+        public static void AddUnit(string type, string ability, string activeAbl,
+            int health, int attack, int defense,
+            int minDamage, int maxDamage, string imageName, double initiative) =>
+            ExpandData.AddUnit(type, ability, activeAbl, health, attack, defense, minDamage, maxDamage, imageName, initiative);
     }
 }

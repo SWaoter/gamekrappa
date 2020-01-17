@@ -31,7 +31,7 @@
                 x:Name="stack11"
                 ToolTip="{Binding Battle.First[0].StringDef}"
                 Background="Transparent"
-                Click="Stack11_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.First[0].IsAlive, Converter={StaticResource BooleanToVis}}">
                 <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[0].FileName}">
                     <Image.RenderTransform>
@@ -45,7 +45,7 @@
                 x:Name="stack13"
                 ToolTip="{Binding Battle.First[2].StringDef}"
                 Background="Transparent"
-                Click="Stack13_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.First[2].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[2].FileName}">
                 <Image.RenderTransform>
@@ -59,7 +59,7 @@
                 x:Name="stack15"
                 ToolTip="{Binding Battle.First[4].StringDef}"
                 Background="Transparent"
-                Click="Stack15_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.First[4].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[4].FileName}">
                 <Image.RenderTransform>
@@ -73,7 +73,7 @@
                 x:Name="stack12"
                 ToolTip="{Binding Battle.First[1].StringDef}"
                 Background="Transparent"
-                Click="Stack12_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.First[1].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[1].FileName}">
                 <Image.RenderTransform>
@@ -87,7 +87,7 @@
                 x:Name="stack14"
                 ToolTip="{Binding Battle.First[3].StringDef}"
                 Background="Transparent"
-                Click="Stack14_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.First[3].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[3].FileName}">
                 <Image.RenderTransform>
@@ -101,7 +101,7 @@
                 x:Name="stack16"
                 ToolTip="{Binding Battle.First[5].StringDef}"
                 Background="Transparent"
-                Click="Stack16_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.First[5].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image RenderTransformOrigin="0.5,0.5" Source="{Binding Battle.First[5].FileName}">
                 <Image.RenderTransform>
@@ -115,7 +115,7 @@
                 x:Name="stack22"
                 ToolTip="{Binding Battle.Second[1].StringDef}"
                 Background="Transparent"
-                Click="Stack22_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.Second[1].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image Source="{Binding Battle.Second[1].FileName}"/>
             </Button>
@@ -125,7 +125,7 @@
                 x:Name="stack24"
                 ToolTip="{Binding Battle.Second[3].StringDef}"
                 Background="Transparent"
-                Click="Stack24_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.Second[3].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image Source="{Binding Battle.Second[3].FileName}"/>
             </Button>
@@ -135,7 +135,7 @@
                 x:Name="stack26"
                 ToolTip="{Binding Battle.Second[5].StringDef}"
                 Background="Transparent"
-                Click="Stack26_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.Second[5].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image Source="{Binding Battle.Second[5].FileName}"/>
             </Button>
@@ -145,7 +145,7 @@
                 x:Name="stack21"
                 ToolTip="{Binding Battle.Second[0].StringDef}"
                 Background="Transparent"
-                Click="Stack21_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.Second[0].IsAlive, Converter={StaticResource BooleanToVis}}">
             <Image Source="{Binding Battle.Second[0].FileName}"/>
             </Button>
@@ -155,7 +155,7 @@
                 x:Name="stack23"
                 ToolTip="{Binding Battle.Second[2].StringDef}"
                 Background="Transparent"
-                Click="Stack23_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.Second[2].IsAlive, Converter={StaticResource BooleanToVis}}">
                 <Image Source="{Binding Battle.Second[2].FileName}"/>
             </Button>
@@ -165,11 +165,12 @@
                 x:Name="stack25"
                 ToolTip="{Binding Battle.Second[4].StringDef}"
                 Background="Transparent"
-                Click="Stack25_Click"
+                Click="Stack_Click"
                 Visibility="{Binding Battle.Second[4].IsAlive, Converter={StaticResource BooleanToVis}}">
                 <Image Source="{Binding Battle.Second[4].FileName}"/>
             </Button>
         </Border>
+
         <Grid Grid.Column="0" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>

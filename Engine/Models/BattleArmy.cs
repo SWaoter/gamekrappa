@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Engine.Models
 {
@@ -49,12 +50,26 @@ namespace Engine.Models
         {
             _army[num].Heal(heal);
         }
-        public BattleUnitsStack this[int i]
+
+        public int GetCurrentAliveStacksNum()
         {
-            get
-            {
-                return _army[i];
-            }
+            return _army.Count(t => t.IsAlive);
         }
+
+        public int[] GetAliveId()
+        {
+            var ret = new int[GetCurrentAliveStacksNum()];
+            var i = 0;
+            for (var index = 0; index < _army.Length; index++)
+            {
+                var s = _army[index];
+                if (!s.IsAlive) continue;
+                ret[i] = index;
+                i++;
+            }
+
+            return ret;
+        }
+        public BattleUnitsStack this[int i] => _army[i];
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
+using Engine.Bots;
 namespace Engine.Models
 {
     public class Battle : INotifyPropertyChanged
@@ -28,6 +28,7 @@ namespace Engine.Models
         private int _priorPointer;
         private int _waitingUnits;
         private string _ablName;
+        private PurePepeg _bot;
 
         public string AblName
         {
@@ -61,6 +62,7 @@ namespace Engine.Models
             {
                 TurnQueue[i] = new QueueToShow();
             }
+            _bot = new PurePepeg(this);
             InitializePriority();
             RecalculatePriority();
             WhoMoves();
@@ -101,7 +103,8 @@ namespace Engine.Models
             First.CheckIfDefeated();
             Second.CheckIfDefeated();
             if (First.IsDefeated || Second.IsDefeated)
-                EndBattle();
+                return;
+            //EndBattle();
             if (_turnPriority[_priorPointer].Second == 1)
             {
                 _moveOfFirstArmy = true;
@@ -120,9 +123,13 @@ namespace Engine.Models
                 QueueChange();
                 EndTurn();
             }
-            AblName = _attacker.Type.ActiveAbl.Name;
-            AblVis = _attacker.ActiveAblStatus;
-            QueueChange();
+            else
+            {
+                AblName = _attacker.Type.ActiveAbl.Name;
+                AblVis = _attacker.ActiveAblStatus;
+                QueueChange();
+                if (!_moveOfFirstArmy) _bot.Decision(_idOfCurrentStackInArmy);
+            }
         }
         private void InitializePriority()
         {
@@ -247,7 +254,7 @@ namespace Engine.Models
             }
 
         }
-        public void Attack(int idOfTarget)
+        private void Attack(int idOfTarget)
         {
             if (_moveOfFirstArmy)
             {

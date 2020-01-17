@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -34,6 +35,10 @@ namespace GameOOP
             InitializeComponent();
             _gameSession = new GameSession(arm1Id, arm1Count, arm2Id, arm2Count);
             DataContext = _gameSession;
+            PathGeometry test = new PathGeometry();
+            DoubleAnimationUsingPath test2 = new DoubleAnimationUsingPath();
+            test2.PathGeometry = test;
+            
         }
 
         private void Attack_Click(object sender, RoutedEventArgs e)
@@ -56,147 +61,13 @@ namespace GameOOP
             _gameSession.Defend();
         }
 
-        private void Stack11_Click(object sender, RoutedEventArgs e)
+        private void Stack_Click(object sender, RoutedEventArgs e)
         {
-            if (_current == Actions.Attack)
+            switch (_current)
             {
-                _gameSession.Attack(0);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(0);
-            }         
-        }
-
-        private void Stack12_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(1);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(1);
-            }
-        }
-
-        private void Stack13_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(2);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(2);
-            }
-        }
-
-        private void Stack14_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(3);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(3);
-            }
-        }
-
-        private void Stack15_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(4);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(4);
-            }
-        }
-
-        private void Stack16_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(5);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(5);
-            }
-        }
-
-        private void Stack21_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(0);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(0);
-            }
-        }
-
-        private void Stack22_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(1);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(1);
-            }
-        }
-
-        private void Stack23_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(2);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(2);
-            }
-        }
-
-        private void Stack24_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(3);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(3);
-            }
-        }
-
-        private void Stack25_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(4);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(4);
-            }
-        }
-
-        private void Stack26_Click(object sender, RoutedEventArgs e)
-        {
-            if (_current == Actions.Attack)
-            {
-                _gameSession.Attack(5);
-            }
-            if (_current == Actions.Cast)
-            {
-                _gameSession.Cast(5);
+                case Actions.Attack:
+                    _gameSession.Attack(int.Parse(((Button)sender).Name.Substring(6,1)) - 1);
+                    break;
             }
         }
     }

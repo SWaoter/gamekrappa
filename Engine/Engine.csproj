@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\Bot.cs" />
+    <Compile Include="Bots\PurePepeg.cs" />
     <Compile Include="Factory\BattleCreation.cs" />
     <Compile Include="Factory\ExpandData.cs" />
     <Compile Include="Models\ActiveAbl.cs" />
@@ -84,5 +86,6 @@
   <ItemGroup>
     <Resource Include="Images\Test123.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

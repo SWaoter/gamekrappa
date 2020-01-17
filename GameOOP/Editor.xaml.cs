@@ -8,7 +8,7 @@ namespace GameOOP
     /// <summary>
     /// Логика взаимодействия для Editor.xaml
     /// </summary>
-    public partial class Editor : Window
+    public partial class Editor
     {
         public ObservableCollection<string> Active;
         public ObservableCollection<string> Passive;
@@ -51,7 +51,7 @@ namespace GameOOP
             ExpandDataMV.AddCast(defense, attack, initiative, damage, hp, heal, friendly, aoe, name);
             Editor refresh = new Editor();
             refresh.Show();
-            this.Close();
+            Close();
         }
 
         private void AddUnit(object sender, RoutedEventArgs e)
